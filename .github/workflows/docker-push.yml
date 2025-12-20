@@ -1,0 +1,80 @@
+name: Release on tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_LOCAL: digital-clock
+      IMAGE_DOCKERHUB: amnoorbrar/digital-clock
+      VERSION: ${{ github.ref_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show context
+        run: |
+          echo "Git ref: $GITHUB_REF"
+          echo "Tag (version): $VERSION"
+
+      - name: Verify Docker is available
+        run: docker version
+
+      - name: Install DockerSlim (slim)
+        run: |
+          curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
+          slim --version || docker-slim --version
+
+      - name: Build original image
+        run: docker build -t ${IMAGE_LOCAL}:original .
+
+      - name: Slim original -> latest
+        run: |
+          slim build \
+            --target ${IMAGE_LOCAL}:original \
+            --tag ${IMAGE_LOCAL}:latest \
+            --http-probe-cmd /usr/share/nginx/html/index.html \
+            --http-probe-cmd /usr/share/nginx/html/style/ \
+            --preserve-path /usr/share/nginx/html
+
+      - name: Slim original -> version tag
+        run: |
+          slim build \
+            --target ${IMAGE_LOCAL}:original \
+            --tag ${IMAGE_LOCAL}:${VERSION} \
+            --http-probe-cmd /usr/share/nginx/html/index.html \
+            --http-probe-cmd /usr/share/nginx/html/style/ \
+            --preserve-path /usr/share/nginx/html
+
+      - name: Docker Hub login
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$DOCKERHUB_TOKEN" ]; then
+            echo "Docker Hub credentials not set. Please define DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets."
+            exit 1
+          fi
+          echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Tag versioned image for Docker Hub
+        run: docker tag ${IMAGE_LOCAL}:${VERSION} ${IMAGE_DOCKERHUB}:${VERSION}
+
+      - name: Push versioned image
+        run: docker push ${IMAGE_DOCKERHUB}:${VERSION}
+
+      - name: Tag latest image for Docker Hub
+        run: docker tag ${IMAGE_LOCAL}:latest ${IMAGE_DOCKERHUB}:latest
+
+      - name: Push latest image
+        run: docker push ${IMAGE_DOCKERHUB}:latest
+
+      - name: Docker logout
+        if: always()
+        run: docker logout
