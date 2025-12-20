@@ -1,0 +1,16 @@
+# Docker
+.dockerignore
+Dockerfile
+Dockerfile
+
+# Git
+.git/
+.github/
+.gitignore
+
+# License
+LICENSE
+
+# Gemini
+.gemini/
+GEMINI.md
