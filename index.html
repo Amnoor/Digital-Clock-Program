@@ -4,28 +4,28 @@
 
 <!-- Starting the HTML file with the <!DOCTYPE html> element -->
 <!DOCTYPE html>
-<!-- Declaring the HTML language as English -->
+<!-- Starting the <html> element -->
 <html lang="en">
-    <!-- Defining the head section -->
+    <!-- Starting the <head> element -->
     <head>
-        <!-- Defining the character set and viewport -->
+        <!-- Adding meta tags -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Defining the title of the page -->
+        <meta name="description" content="A minimalist digital clock web application">
+        <!-- Adding title and icon -->
         <title>Digital Clock</title>
-        <!-- Adding a favicon to the page -->
-        <link rel="icon" type = "image/svg+xml" href = "assets/clock-icon.svg">
-        <!-- Adding a link to the external CSS file -->
+        <link rel="icon" type="image/svg+xml" href="assets/clock-icon.svg">
+        <!-- Adding stylesheets -->
         <link rel="stylesheet" href="style/style.css">
     </head>
-    <!-- Defining the body section -->
+    <!-- Starting the <body> element -->
     <body>
-        <!-- Adding a container for the clock -->
+        <!-- Creating a container for the clock -->
         <div id="clock-box">
-            <!-- Adding a heading for the clock were the clock will be shown -->
-            <h1 id="clock"></h1>
+            <!-- Adding the clock element -->
+            <h1 id="clock" aria-live="polite"></h1>
         </div>
-        <!-- Adding a link to the external JavaScript file -->
-        <script src="index.js"></script>
+        <!-- Linking the JavaScript file -->
+        <script src="index.js" defer></script>
     </body>
 </html>
