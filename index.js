@@ -4,15 +4,13 @@
 
 /**
  * Starts the digital clock with the specified interval.
- * If no interval is provided, the clock updates every 1000 milliseconds (1 second).
- * @param {number} [interval=1000] - The interval in milliseconds at which the clock should update.
- * @returns {number} - The ID of the interval which can be used to clear the interval.
+ * If no interval is specified, it defaults to 1000 milliseconds (1 second).
+ * @param {number} [interval=1000] - The interval in milliseconds to update the clock.
+ * @returns {number} - The interval ID returned by setInterval.
  */
 function startClock(interval = 1000) {
     // Get the clock element from the DOM
     const clock = document.getElementById("clock");
-    // If the clock element is not found, return
-    if (!clock) return;
 
     /**
      * Updates the clock element with the current time.
@@ -37,11 +35,27 @@ function startClock(interval = 1000) {
         clock.textContent = `${hours12}:${minutes}:${seconds} ${ampm}`;
     }
 
-    // Initial
-    update();
-    // Set interval to update the clock every specified milliseconds
-    return setInterval(update, interval);
+    // If the clock element is not found, return an error
+    if(!clock){
+        return console.error("Clock element not found in the DOM.");
+    }
+    // else if the interval is less than or equal to 0, return an error
+    else if(interval <= 0){
+        return console.error("Interval must be greater than 0.");
+    }
+    // else start the clock and update it at the specified interval
+    else{
+        // Log success messages
+        console.log("Clock element found.");
+        console.log(`Starting clock with an interval of ${interval} milliseconds.`);
+        // Initial
+        update();
+        // Set interval to update the clock every specified milliseconds
+        return setInterval(update, interval);
+    };
 }
 
+// Log initialization message
+console.log("Digital Clock Program Initialized.");
 // Start the clock with default interval
-startClock();
+const intervalId = startClock();
