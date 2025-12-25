@@ -20,7 +20,7 @@ A simple and elegant digital clock web application, containerized with Docker an
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Running Locally](#running-locally)
-  - [Contribution](#contribution)
+  - [Contributing](#contributing)
   - [Acknowledgement](#acknowledgement)
   - [License](#license)
 
