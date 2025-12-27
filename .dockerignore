@@ -1,7 +1,6 @@
 # Docker
 .dockerignore
 Dockerfile
-Dockerfile
 
 # Git
 .git/
