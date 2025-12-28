@@ -42,6 +42,6 @@ export function logDebug(type, message){
     }
     // else log an error for unhandled log types
     else{
-        console.error(`${timestamp} - Unhandled log type: ${type} with message: ${message}`);
+        console.warn(`${timestamp} - Unhandled log type: ${type} with message: ${message}`);
     }
 }
