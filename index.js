@@ -2,6 +2,9 @@
 
 // index.js
 
+// Import the logDebug function from the logs module
+import { logDebug } from "./modules/logs/index.js";
+
 /**
  * Starts the digital clock with the specified interval.
  * If no interval is specified, it defaults to 1000 milliseconds (1 second).
@@ -31,23 +34,29 @@ function startClock(interval = 1000) {
         // Determine AM or PM
         const ampm = hours24 >= 12 ? "PM" : "AM";
 
+        // Log the updated time
+        logDebug("log", `Updating clock: ${hours12}:${minutes}:${seconds} ${ampm}`);
+        
         // Update the clock element's text content
         clock.textContent = `${hours12}:${minutes}:${seconds} ${ampm}`;
     }
 
-    // If the clock element is not found, return an error
+    // If the clock element is not found, log an error
     if(!clock){
-        return console.error("Clock element not found in the DOM.");
+        logDebug("error", "Clock element not found in the DOM.");
+        return;
     }
-    // else if the interval is less than or equal to 0, return an error
+    // else if the interval is less than or equal to 0, log an error
     else if(interval <= 0){
-        return console.error("Interval must be greater than 0.");
+        logDebug("error", "Interval must be greater than 0.");
+        return;
     }
     // else start the clock and update it at the specified interval
     else{
-        // Log success messages
-        console.log("Clock element found.");
-        console.log(`Starting clock with an interval of ${interval} milliseconds.`);
+        // Log success message
+        logDebug("log", "Clock element found.");
+        // Log starting message
+        logDebug("log", `Starting clock with an interval of ${interval} milliseconds.`);
         // Initial
         update();
         // Set interval to update the clock every specified milliseconds
@@ -56,6 +65,6 @@ function startClock(interval = 1000) {
 }
 
 // Log initialization message
-console.log("Digital Clock Program Initialized.");
+logDebug("log", "Initializing Digital Clock Program...");
 // Start the clock with default interval
 const intervalId = startClock();

@@ -1,7 +1,6 @@
 # Docker
 .dockerignore
 Dockerfile
-Dockerfile
 
 # Git
 .git/
@@ -10,6 +9,9 @@ Dockerfile
 
 # License
 LICENSE
+
+# README
+README.md
 
 # Gemini
 .gemini/
