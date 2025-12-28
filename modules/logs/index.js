@@ -6,13 +6,13 @@
 const DEBUG = true;
 
 /**
- * Logs a message to the console based on the type.
- * If type is "log", logs to the console.
+ * Logs a message to the console with a timestamp based on the type.
  * If type is "error", logs an error to the console.
  * If type is "warn", logs a warning to the console.
- * If the type is invalid, logs a warning about the invalid type.
- * If DEBUG is false, does nothing.
- * @param {string} type - The type of message to log.
+ * If type is "log" and DEBUG is true, logs to the console.
+ * If type is invalid and DEBUG is true, logs a warning about invalid type.
+ * If type is unhandled, logs an error to the console.
+ * @param {string} type - The type of log message to log (error, warn, log).
  * @param {string} message - The message to log.
  */
 export function logDebug(type, message){
