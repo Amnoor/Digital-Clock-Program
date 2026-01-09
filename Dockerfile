@@ -1,8 +1,26 @@
-# Use the lightweight Alpine Linux version of Nginx web server as the base image
-FROM nginx:mainline-alpine3.22-slim
+FROM busybox:stable-musl AS builder
 
-# Copy all files from the current directory to Nginx's web root directory
-COPY . /usr/share/nginx/html
+RUN mkdir /user_config && \
+    echo "root:x:0:0:root:/root:/bin/sh" > /user_config/passwd && \
+    echo "applicationuser:x:1000:1000:Linux User,,,:/home/applicationuser:/bin/sh" >> /user_config/passwd && \
+    echo "applicationgroup:x:1000:applicationuser" > /user_config/group
 
-# Expose port 80 to allow HTTP traffic to reach the web server
+COPY . /application
+
+FROM scratch
+
+COPY --from=builder /user_config/passwd /etc/passwd
+
+COPY --from=builder /user_config/group /etc/group
+
+COPY --from=builder --chown=0:1000 --chmod=550 /bin/busybox /bin/busybox
+
+COPY --from=builder --chown=0:1000 --chmod=550 /application /application
+
+USER applicationuser:applicationgroup
+
+WORKDIR /application
+
 EXPOSE 80
+
+ENTRYPOINT ["/bin/busybox", "httpd", "-f", "-v", "-p", "80", "-h", "/application"]
