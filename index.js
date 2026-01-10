@@ -35,13 +35,16 @@ function startClock(interval = 1000) {
         const ampm = hours24 >= 12 ? "PM" : "AM";
 
         // Log the updated time
-        log("log", `Updating clock: ${hours12}:${minutes}:${seconds} ${ampm}`);
+        log("debug", `Updating clock: ${hours12}:${minutes}:${seconds} ${ampm}`);
         
         // Update the clock element's text content
         clock.textContent = `${hours12}:${minutes}:${seconds} ${ampm}`;
 
-        // Log debug trace
-        log("trace", "Clock update function executed.");
+        // Log success message
+        log("debug", "Clock updated successfully.");
+
+        // Log trace message with current time details
+        log("trace", `Current Time - Hours: ${hours12}, Minutes: ${minutes}, Seconds: ${seconds}, AM/PM: ${ampm}`);
     }
 
     // If the clock element is not found, log an error
@@ -59,9 +62,13 @@ function startClock(interval = 1000) {
         // Log info message
         log("info", "Clock element found.");
         // Log starting message
-        log("log", `Starting clock with an interval of ${interval} milliseconds.`);
+        log("info", `Starting clock.`);
         // Initial
         update();
+        // Log success message
+        log("info", "Clock started successfully.");
+        // Log trace message
+        log("trace", `Clock will update every ${interval} milliseconds.`);
         // Set interval to update the clock every specified milliseconds
         return setInterval(update, interval);
     };
