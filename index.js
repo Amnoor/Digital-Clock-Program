@@ -2,8 +2,8 @@
 
 // index.js
 
-// Import the logDebug function from the logs module
-import { logDebug } from "./modules/logs/index.js";
+// Import the log function from the logs module
+import { log } from "./modules/logs/index.js";
 
 /**
  * Starts the digital clock with the specified interval.
@@ -35,36 +35,46 @@ function startClock(interval = 1000) {
         const ampm = hours24 >= 12 ? "PM" : "AM";
 
         // Log the updated time
-        logDebug("log", `Updating clock: ${hours12}:${minutes}:${seconds} ${ampm}`);
+        log("debug", `Updating clock: ${hours12}:${minutes}:${seconds} ${ampm}`);
         
         // Update the clock element's text content
         clock.textContent = `${hours12}:${minutes}:${seconds} ${ampm}`;
+
+        // Log success message
+        log("debug", "Clock updated successfully.");
+
+        // Log trace message with current time details
+        log("trace", `Current Time - Hours: ${hours12}, Minutes: ${minutes}, Seconds: ${seconds}, AM/PM: ${ampm}`);
     }
 
     // If the clock element is not found, log an error
     if(!clock){
-        logDebug("error", "Clock element not found in the DOM.");
+        log("error", "Clock element not found in the DOM.");
         return;
     }
     // else if the interval is less than or equal to 0, log an error
     else if(interval <= 0){
-        logDebug("error", "Interval must be greater than 0.");
+        log("error", "Interval must be greater than 0.");
         return;
     }
     // else start the clock and update it at the specified interval
     else{
-        // Log success message
-        logDebug("log", "Clock element found.");
+        // Log info message
+        log("info", "Clock element found.");
         // Log starting message
-        logDebug("log", `Starting clock with an interval of ${interval} milliseconds.`);
+        log("info", `Starting clock.`);
         // Initial
         update();
+        // Log success message
+        log("info", "Clock started successfully.");
+        // Log trace message
+        log("trace", `Clock will update every ${interval} milliseconds.`);
         // Set interval to update the clock every specified milliseconds
         return setInterval(update, interval);
     };
 }
 
-// Log initialization message
-logDebug("log", "Initializing Digital Clock Program...");
+// Log info initialization message
+log("info", "Initializing Digital Clock Program...");
 // Start the clock with default interval
 const intervalId = startClock();

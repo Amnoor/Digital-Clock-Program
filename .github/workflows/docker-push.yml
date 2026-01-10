@@ -26,31 +26,11 @@ jobs:
       - name: Verify Docker is available
         run: docker version
 
-      - name: Install DockerSlim (slim)
-        run: |
-          curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
-          slim --version || docker-slim --version
+      - name: Build latest image
+        run: docker build -t ${IMAGE_LOCAL}:latest .
 
-      - name: Build original image
-        run: docker build -t ${IMAGE_LOCAL}:original .
-
-      - name: Slim original -> latest
-        run: |
-          slim build \
-            --target ${IMAGE_LOCAL}:original \
-            --tag ${IMAGE_LOCAL}:latest \
-            --http-probe-cmd /usr/share/nginx/html/index.html \
-            --http-probe-cmd /usr/share/nginx/html/style/ \
-            --preserve-path /usr/share/nginx/html
-
-      - name: Slim original -> version tag
-        run: |
-          slim build \
-            --target ${IMAGE_LOCAL}:original \
-            --tag ${IMAGE_LOCAL}:${VERSION} \
-            --http-probe-cmd /usr/share/nginx/html/index.html \
-            --http-probe-cmd /usr/share/nginx/html/style/ \
-            --preserve-path /usr/share/nginx/html
+      - name: Build versioned image
+        run: docker build -t ${IMAGE_LOCAL}:${VERSION} .
 
       - name: Docker Hub login
         env:

@@ -6,42 +6,41 @@
 const DEBUG = false;
 
 /**
- * Logs a message to the console with a timestamp based on the type.
- * If type is "error", logs an error to the console.
- * If type is "warn", logs a warning to the console.
- * If type is "log" and DEBUG is true, logs to the console.
- * If type is invalid and DEBUG is true, logs a warning about invalid type.
- * If type is unhandled, logs an error to the console.
- * @param {string} type - The type of log message to log (error, warn, log).
- * @param {string} message - The message to log.
+ * Logs a message with a given type and timestamp.
+ * If the type is not recognized, a warning message is logged.
+ * If the type is recognized but not always logged, and the DEBUG constant is false,
+ * the message is not logged.
+ * @param {string} type - The type of the log message.
+ * @param {string} message - The message to be logged.
  */
-export function logDebug(type, message){
-    // Get the current timestamp for logging
+export function log(type, message){
+    // Get the current timestamp in ISO format
     const timestamp = new Date().toISOString();
+    
+    // Define log levels and their properties
+    const level_type = {
+        error: {console: console.error, always: true, label: "ERROR"},
+        warn: {console: console.warn, always: true, label: "WARNING"},
+        info: {console: console.info, always: true, label: "INFO"},
+        log: {console: console.log, always: false, label: "LOG"},
+        debug: {console: console.debug, always: false, label: "DEBUG"},
+        trace: {console: console.trace, always: false, label: "TRACE"},
+    }
 
-    // Log the message based on the type
-    // if type is "error", log an error, even if DEBUG is false
-    if(type === "error"){
-        console.error(`${timestamp} - ${message}`);
-    }
-    // else if type is "warn", log a warning, even if DEBUG is false
-    else if(type === "warn"){
-        console.warn(`${timestamp} - ${message}`);
-    }
-    // else if DEBUG is false, return nothing and do not log
-    else if(!DEBUG){
+    // Get the log level based on the type given
+    const loglevel = level_type[type];
+
+    // If the log level is invalid, log a warning message and return nothing
+    if(!loglevel){
+        console.warn(`[${timestamp}] [WARNING]: Invalid log type: ${type}`);
         return;
     }
-    // else if type is "log" and DEBUG is true, log to the console
-    else if(type === "log" && DEBUG){
-        console.log(`${timestamp} - ${message}`);
+    // Else if the log level is valid but not always logged, and DEBUG is false, return nothing
+    else if(!loglevel.always && !DEBUG){
+        return;
     }
-    // else if type is invalid and DEBUG is true, log a warning about invalid type
-    else if(type !== "log" && type !== "error" && type !== "warn" && DEBUG){
-        console.warn(`${timestamp} - Invalid log type specified: ${type}`);
-    }
-    // else log an error for unhandled log types
+    // Else, log the message with the appropriate log function
     else{
-        console.warn(`${timestamp} - Unhandled log type: ${type} with message: ${message}`);
+        loglevel.console(`[${timestamp}] [${loglevel.label}]: ${message}`);
     }
 }
