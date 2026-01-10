@@ -36,7 +36,7 @@ export function log(type, message){
         return;
     }
     // Else if the log level is valid but not always logged, and DEBUG is false, return nothing
-    else if(!loglevel.always || !DEBUG){
+    else if(!loglevel.always && !DEBUG){
         return;
     }
     // Else, log the message with the appropriate log function
