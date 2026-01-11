@@ -34,8 +34,7 @@ This project is a minimalist digital clock built with fundamental web technologi
 *   CSS3
 *   JavaScript (ES6)
 *   Docker
-*   Nginx
-*   DockerSlim
+*   BusyBox
 *   GitHub Actions
 
 ## Getting Started
