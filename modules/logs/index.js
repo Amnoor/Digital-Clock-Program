@@ -3,7 +3,7 @@
 // modules/logs/index.js
 
 // Debugging flag
-const DEBUG = true;
+const DEBUG = false;
 
 /**
  * Logs a message with a given type and timestamp.
