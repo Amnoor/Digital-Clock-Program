@@ -20,7 +20,6 @@ A simple and elegant digital clock web application, containerized with Docker an
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Running Locally](#running-locally)
-  - [Contributing](#contributing)
   - [Acknowledgement](#acknowledgement)
   - [License](#license)
 
@@ -34,8 +33,7 @@ This project is a minimalist digital clock built with fundamental web technologi
 *   CSS3
 *   JavaScript (ES6)
 *   Docker
-*   Nginx
-*   DockerSlim
+*   BusyBox
 *   GitHub Actions
 
 ## Getting Started
@@ -81,26 +79,6 @@ You can run this application in two ways:
     ```
 4.  **Access the application:**\
     Open your browser and navigate to `http://localhost:8080`.
-
-## Contributing
-
-Contributions are welcome! Please follow this workflow to ensure a smooth process.
-
-1.  **Fork the Repository:** Start by forking the project to your own GitHub account.
-
-2.  **Branching Strategy:**
-    *   Create a `develop` branch from `main` if it doesn't already exist in your fork.
-    *   Create a new branch for your changes *from the `develop` branch*. Please name it according to its purpose (e.g., `feature/your-feature`).
-
-3.  **Commit and Merge to `develop`:** After making your changes, commit them and merge your feature branch into your fork's `develop` branch.
-
-4.  **Update Acknowledgement:** To get credit for your work, create another branch from `develop` named `docs/acknowledgement`. Add your name and a link to your GitHub profile under the **Acknowledgement** section. Merge this branch into your `develop` branch as well.
-
-5.  **Create a Release Branch:** Once all your changes are in your `develop` branch, create a new branch from it. Name this branch following the pattern `release/v*` (for example, `release/v1.2.3`).
-
-6.  **Submit the Final Pull Request:** Create the final pull request to merge your new `release/v*` branch into the original repository's `main` branch.
-
-7.  **Wait for Review:** The project owner will review your changes, provide feedback, and merge your contribution.
 
 ## Acknowledgement
 
