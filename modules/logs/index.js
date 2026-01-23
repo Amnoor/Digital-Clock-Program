@@ -13,7 +13,7 @@ const DEBUG = true;
  * @param {string} type - The type of the log message.
  * @param {string} message - The message to be logged.
  */
-export function log(type, message){
+function log(type, message){
     // Get the current timestamp in ISO format
     const timestamp = new Date().toISOString();
     
@@ -44,3 +44,8 @@ export function log(type, message){
         loglevel.console(`[${timestamp}] [${loglevel.label}]: ${message}`);
     }
 }
+
+// Export the log function
+export{
+    log
+};
