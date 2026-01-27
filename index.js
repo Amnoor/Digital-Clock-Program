@@ -4,77 +4,18 @@
 
 // Import the log function from the logs module
 import { log } from "./modules/logs/index.js";
+// Import the loadSavedMode and listenForModeChanges functions from the preferences module
+import { loadSavedMode, listenForModeChanges } from "./modules/preferences/index.js";
 
-/**
- * Starts the digital clock with the specified interval.
- * If no interval is specified, it defaults to 1000 milliseconds (1 second).
- * @param {number} [interval=1000] - The interval in milliseconds to update the clock.
- * @returns {number} - The interval ID returned by setInterval.
- */
-function startClock(interval = 1000) {
-    // Get the clock element from the DOM
-    const clock = document.getElementById("clock");
-
-    /**
-     * Updates the clock element with the current time.
-     * @returns {void}
-     */
-    function update() {
-        // Get the current date and time
-        const now = new Date();
-
-        // Get the 24 hour format
-        const hours24 = now.getHours();
-        // Convert to 12 hour format and pad with leading zeros
-        const hours12 = String(hours24 % 12 || 12).padStart(2, "0");
-        // Get minutes, padded with leading zeros
-        const minutes = String(now.getMinutes()).padStart(2, "0");
-        // Get seconds, padded with leading zeros
-        const seconds = String(now.getSeconds()).padStart(2, "0");
-        // Determine AM or PM
-        const ampm = hours24 >= 12 ? "PM" : "AM";
-
-        // Log the updated time
-        log("debug", `Updating clock: ${hours12}:${minutes}:${seconds} ${ampm}`);
-        
-        // Update the clock element's text content
-        clock.textContent = `${hours12}:${minutes}:${seconds} ${ampm}`;
-
-        // Log success message
-        log("debug", "Clock updated successfully.");
-
-        // Log trace message with current time details
-        log("trace", `Current Time - Hours: ${hours12}, Minutes: ${minutes}, Seconds: ${seconds}, AM/PM: ${ampm}`);
-    }
-
-    // If the clock element is not found, log an error
-    if(!clock){
-        log("error", "Clock element not found in the DOM.");
-        return;
-    }
-    // else if the interval is less than or equal to 0, log an error
-    else if(interval <= 0){
-        log("error", "Interval must be greater than 0.");
-        return;
-    }
-    // else start the clock and update it at the specified interval
-    else{
-        // Log info message
-        log("info", "Clock element found.");
-        // Log starting message
-        log("info", `Starting clock.`);
-        // Initial
-        update();
-        // Log success message
-        log("info", "Clock started successfully.");
-        // Log trace message
-        log("trace", `Clock will update every ${interval} milliseconds.`);
-        // Set interval to update the clock every specified milliseconds
-        return setInterval(update, interval);
-    };
-}
-
-// Log info initialization message
+// Log initialization message
 log("info", "Initializing Digital Clock Program...");
-// Start the clock with default interval
-const intervalId = startClock();
+
+// logging debug message about checking for saved clock mode
+log("debug", "Checking for saved clock mode in client-side storage...");
+// Load the saved clock mode from client-side storage
+loadSavedMode();
+
+// logging debug message about setting up event listener for format toggle input
+log("debug", "Setting up event listener for format toggle input...");
+// Listen for changes to the format toggle input
+listenForModeChanges();

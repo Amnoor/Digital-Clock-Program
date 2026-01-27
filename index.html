@@ -20,11 +20,25 @@
     </head>
     <!-- Starting the <body> element -->
     <body>
+        <!-- Creating a container for the toggle -->
+        <div id="toggle-container">
+            <!-- Adding the toggle labels -->
+            <label for="format-toggle" class="toggle-label">12</label>
+            <!-- Adding the toggle switch -->
+            <label class="switch">
+                <!-- Adding the toggle input -->
+                <input type="checkbox" id="format-toggle" aria-label="Toggle between 12 and 24 hour format">
+                <!-- Adding the toggle slider -->
+                <span class="slider"></span>
+            </label>
+            <!-- Adding the toggle labels -->
+            <label for="format-toggle" class="toggle-label">24</label>
+        </div>
         <!-- Creating a container for the clock -->
-        <div id="clock-box">
+        <main id="clock-box">
             <!-- Adding the clock element -->
             <h1 id="clock" aria-live="polite"></h1>
-        </div>
+        </main>
         <!-- Linking the JavaScript file -->
         <script type="module" src="index.js" defer></script>
     </body>
